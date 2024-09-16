@@ -1,9 +1,9 @@
-node_modules
-dist
-build
+node_modules/
+dist/
+build/
 *.log
 *.env
 .cache
-coverage
-.vscode
-.idea
+coverage/
+.vscode/
+.idea/
