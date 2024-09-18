@@ -6,3 +6,4 @@ export const getTasks = async (app: FastifyInstance) => {
         return db('task').select("*").orderBy("created_at", "desc")
     })
 }
+ 

@@ -8,6 +8,9 @@ export const dbConfig: Knex.Config = {
         user: process.env.USERNAME,
         password: process.env.PASSWORD,
         database: 'tk_mg'
+    },
+    migrations: {
+        extension: 'ts',
     }
 }
 

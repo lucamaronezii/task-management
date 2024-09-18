@@ -12,7 +12,12 @@ interface ICreateTask {
 
 export const createTask = async (app: FastifyInstance) => {
     app.post('/task', async (req, res) => {
-        await db('task').insert(req.body)
-        return res.status(201).send({ message: 'Task created successfully.' })
+        const { body } = req
+        req.body
+        const response = await db('task').insert({
+            id: crypto.randomUUID(),
+            ...body as Object
+        }).returning("*")
+        return res.status(201).send(response[0])
     })
 }
