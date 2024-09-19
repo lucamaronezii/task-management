@@ -1,11 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { db } from "../../database/db_connection";
+import crypto, { UUID } from 'node:crypto'
+import { checkSessionId } from "../middleware/check-session";
 
 export const tasksEndpoints = async (app: FastifyInstance) => {
-    app.get('/', async () => {
+    // app.addHook('preHandler', checkSessionId)
+
+    app.get('/', async (req) => {
+        const { session_id } = req.cookies
+
         const tasks = await db('task')
             .select("*")
+            .where("session_id", session_id)
             .orderBy("created_at", "desc")
 
         return {
@@ -14,7 +21,9 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         }
     })
 
-    app.get('/:id', async (req, reply) => {
+    app.get('/:id', async (req) => {
+        const { session_id } = req.cookies
+
         const getTaskParamsSchema = z.object({
             id: z.string().uuid()
         })
@@ -24,6 +33,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         const task = await db('task')
             .select("*")
             .where("id", params.id)
+            .andWhere("session_id", session_id)
             .first()
 
         return task == undefined ? { message: "Not found" } : task
@@ -41,19 +51,21 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
 
         const body = createTaskBodySchema.parse(req.body)
 
-        let sessionId = req.cookies.sessionId
+        let sessionId = req.cookies.session_id
 
         if (!sessionId) {
             sessionId = crypto.randomUUID()
             reply.cookie("session_id", sessionId, {
                 path: '/',
-                maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+                maxAge: 60 * 60 * 24 * 7 // 7 days
             })
         }
 
+        reply.clearCookie("sessionId")
+
         await db('task').insert({
             id: crypto.randomUUID(),
-            // session_id: sessionId,
+            session_id: sessionId as UUID,
             ...body
         })
 
