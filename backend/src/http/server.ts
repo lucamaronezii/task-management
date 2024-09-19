@@ -1,14 +1,17 @@
-import fastify from 'fastify'
-import { getTasks } from '../services/get_tasks'
-import { createTask } from '../services/create_task'
 import dotenv from 'dotenv'
+import fastify from 'fastify'
+import { tasksEndpoints } from '../services/task_services'
+import cookie from '@fastify/cookie'
 
 dotenv.config()
 
 const app = fastify()
 
-app.register(getTasks)
-app.register(createTask)
+//plugins
+app.register(cookie)
+app.register(tasksEndpoints, {
+    prefix: 'task'
+})
 
 app.listen({
     port: 3333,

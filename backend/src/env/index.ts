@@ -9,4 +9,10 @@ const envSchema = z.object({
     PORT: z.number().default(5432)
 })
 
-export const env = envSchema.parse(process.env)
+const _env = envSchema.safeParse(process.env)
+
+if (!_env.success) {
+    console.error('Variáveis de ambiente inválidas: ', _env.error.format())
+}
+
+export const env = _env.data!
