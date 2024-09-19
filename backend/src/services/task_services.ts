@@ -5,7 +5,7 @@ import crypto, { UUID } from 'node:crypto'
 import { checkSessionId } from "../middleware/check-session";
 
 export const tasksEndpoints = async (app: FastifyInstance) => {
-    // app.addHook('preHandler', checkSessionId)
+    app.addHook('preHandler', checkSessionId)
 
     app.get('/', async (req) => {
         const { session_id } = req.cookies
@@ -70,5 +70,19 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         })
 
         return reply.status(201).send()
+    })
+
+    app.delete('/:id', async (req, rep) => {
+        const deleteTaskParamsSchema = z.object({
+            id: z.string().uuid()
+        })
+
+        const params = deleteTaskParamsSchema.parse(req.params)
+
+        await db('task')
+            .delete()
+            .where("id", params.id)
+
+        return rep.status(200).send({ message: "Task deleted sucessfully!" })
     })
 }
