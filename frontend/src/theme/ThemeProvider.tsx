@@ -13,7 +13,8 @@ const ThemeProvider = ({ children }: ITheme) => {
       theme={{
         algorithm: theme.darkAlgorithm,
         token: {
-          colorPrimary: "#FFF"
+          colorPrimary: "#27272A",
+          colorText: '#FFF',
         },
         components: {
           Segmented: {
@@ -25,8 +26,19 @@ const ThemeProvider = ({ children }: ITheme) => {
             colorPrimary: 'black'
           },
           Calendar: {
-            colorPrimary: '#27272A'
+            colorPrimary: '#27272A',
+            
           },
+          Button: {
+            defaultHoverColor: '#FFF'
+          },
+          Radio: {
+            buttonSolidCheckedHoverBg: 'red',
+            colorText: 'white',
+            colorTextPlaceholder: 'white',
+            colorTextSecondary: 'red',
+            colorTextBase: 'red'
+          }
         }
       }}
     >

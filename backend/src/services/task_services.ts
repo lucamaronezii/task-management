@@ -13,6 +13,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         const tasks = await db('task')
             .select("*")
             .where("session_id", session_id)
+            .where("priority", "=", 2)
             .orderBy("created_at", "desc")
 
         return {
