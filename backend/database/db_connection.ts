@@ -1,10 +1,10 @@
 import knex, { Knex } from 'knex'
 import { env } from '../src/env'
-
+console.log(process.env.DATABASE_URL)
 export const dbConfig: Knex.Config = {
     client: 'pg',
     connection: {
-        database: env.DATABASE_URL,
+        database: process.env.DATABASE_URL,
         port: env.PORT
     },
     migrations: {

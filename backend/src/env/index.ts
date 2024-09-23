@@ -8,8 +8,8 @@ if (process.env.NODE_ENV == "test") {
 }
 
 const envSchema = z.object({
-    NODE_ENV: z.string(),
     DATABASE_URL: z.string(),
+    NODE_ENV: z.string(),
     PORT: z.coerce.number().default(5432)
 })
 
