@@ -13,7 +13,7 @@ const envSchema = z.object({
     USERNAME: z.string(),
     PASSWORD: z.string(),
     HOST: z.string(),
-    DB_PORT: z.coerce.number().default(5432)
+    PORT: z.coerce.number().default(5432)
 })
 
 const _env = envSchema.safeParse(process.env)
