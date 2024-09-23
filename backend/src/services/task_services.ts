@@ -65,7 +65,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
             id: crypto.randomUUID(),
             session_id: sessionId as UUID,
             ...body
-        }).returning("id")
+        }).returning('*')
 
         return reply.status(201).send(response[0])
     })
