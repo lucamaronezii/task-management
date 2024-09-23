@@ -4,6 +4,7 @@ import dotnev from 'dotenv'
 dotnev.config()
 
 console.log(process.env.DATABASE_URL)
+console.log(process.env.PORT)
 
 export const dbConfig: Knex.Config = {
     client: 'pg',

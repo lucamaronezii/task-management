@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch ./src/http/server.ts",
-    "knex": "node --import tsx ./node_modules/knex/bin/cli.js --knexfile ./knexfile.ts",
+    "knex": "node --loader tsx ./node_modules/knex/bin/cli.js --knexfile ./knexfile.ts",
     "test": "vitest",
     "build": "tsup src"
   },
