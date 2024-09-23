@@ -10,9 +10,6 @@ if (process.env.NODE_ENV == "test") {
 const envSchema = z.object({
     NODE_ENV: z.string(),
     DATABASE: z.string(),
-    USERNAME: z.string(),
-    PASSWORD: z.string(),
-    HOST: z.string(),
     PORT: z.coerce.number().default(5432)
 })
 
