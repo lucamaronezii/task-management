@@ -4,7 +4,6 @@ import { env } from '../src/env'
 export const dbConfig: Knex.Config = {
     client: 'pg',
     connection: {
-        port: env.PORT,
         database: env.DATABASE,
     },
     migrations: {
