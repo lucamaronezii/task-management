@@ -61,15 +61,13 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
             })
         }
 
-        reply.clearCookie("sessionId")
-
-        await db('task').insert({
+        const response = await db('task').insert({
             id: crypto.randomUUID(),
             session_id: sessionId as UUID,
             ...body
-        })
+        }).returning("id")
 
-        return reply.status(201).send()
+        return reply.status(201).send(response[0])
     })
 
     app.delete('/:id', async (req, rep) => {

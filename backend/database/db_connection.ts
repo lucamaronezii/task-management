@@ -5,10 +5,10 @@ export const dbConfig: Knex.Config = {
     client: 'pg',
     connection: {
         host: env.HOST,
-        port: env.PORT,
+        port: env.DB_PORT,
         user: env.USERNAME,
         password: env.PASSWORD,
-        database: env.DATABASE
+        database: env.DATABASE,
     },
     migrations: {
         extension: 'ts',

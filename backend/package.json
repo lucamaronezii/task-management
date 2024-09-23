@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch ./src/http/server.ts",
-    "knex": "node --loader tsx ./node_modules/knex/bin/cli.js --knexfile ./knexfile.ts",
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js --knexfile ./knexfile.ts",
     "test": "vitest"
   },
   "keywords": [],
@@ -24,6 +24,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
     "vitest": "^2.1.1"
   }
 }
