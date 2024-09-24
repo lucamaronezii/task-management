@@ -12,9 +12,9 @@ const TaskItem: React.FC<{ task: ITask }> = ({ task }) => {
         >
             <div className='flex items-center gap-4'>
                 <ClipboardText size={22} weight="duotone" />
-                <Typography className='text-zinc-200'>{task.name}</Typography>
+                <Typography className='text-zinc-200 font-medium'>{task.name}</Typography>
             </div>
-            <Checkbox />
+            <Checkbox checked={task.concluded}/>
         </Flex>
     )
 }

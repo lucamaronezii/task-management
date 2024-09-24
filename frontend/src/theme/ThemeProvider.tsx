@@ -34,7 +34,7 @@ const ThemeProvider = ({ children }: ITheme) => {
           },
           Message: {
             colorSuccess: '#FFF'
-          }
+          },
         }
       }}
     >

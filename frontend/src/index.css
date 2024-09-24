@@ -8,7 +8,7 @@
 }
 
 .ant-picker-now-btn:hover {
-    color: white;       
+    color: white;
 }
 
 .ant-radio-button-wrapper-checked {
@@ -20,8 +20,12 @@
     color: white !important;
 }
 
+#filters .ant-form-item {
+    margin-bottom: 0px !important;
+}
+
 @layer base {
-  :root {
+    :root {
         --radius: 0.5rem;
     }
 }

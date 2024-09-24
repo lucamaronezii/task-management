@@ -21,21 +21,35 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         }
     })
 
-    app.get('/estimated_date/:estimated_date', async (req) => {
+    app.get('/filter', async (req) => {
         const { session_id } = req.cookies
-
-        const getTaskParamsSchema = z.object({
-            estimated_date: z.string()
+        const { query } = req
+        console.log(query)
+        const getTaskQuerySchema = z.object({
+            estimated_date: z.string().optional(),
+            name: z.string().optional(),
+            priority: z.coerce.number().optional(),
+            category: z.coerce.number().optional(),
+            status: z.coerce.number().optional()
         })
 
-        const params = getTaskParamsSchema.parse(req.params)
+        const props = getTaskQuerySchema.parse(query)
 
-        const task = await db('task')
+        const tasks = await db('task')
             .select("*")
-            .where("estimated_date", params.estimated_date)
-            .andWhere("session_id", session_id)
+            .where("session_id", session_id)
+            .modify((qb) => {
+                if (props.estimated_date) qb.andWhere("estimated_date", props.estimated_date)
+                if (props.name) qb.andWhereLike("name", `%${props.name}%`)
+                if (props.priority) qb.andWhere("priority", props.priority)
+                if (props.category) qb.andWhere("category", props.category)
+                if (props.status) qb.andWhere("status", props.status)
+            })
 
-        return task == undefined ? { message: "Not found" } : task
+        return {
+            total: tasks.length,
+            tasks
+        }
     })
 
     app.get('/:id', async (req) => {

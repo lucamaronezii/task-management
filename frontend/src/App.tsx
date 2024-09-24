@@ -11,7 +11,6 @@ function App() {
   return (
     <div className='h-screen bg-black text-zinc-200 flex justify-center'>
       <div className='py-5 w-[56rem] flex items-center flex-col mx-6 gap-5'>
-        {/* bg-zinc-900  */}
         <Segmented value={tab} options={segOpts} onChange={(e) => setTab(e)} />
         {tab == 1 ? (<Dashboard />) : (<Tasks />)}
       </div>
