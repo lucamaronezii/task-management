@@ -2,8 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import { Segmented } from 'antd'
 import { segOpts } from './constants'
-import Dashboard from './components/Dashboard/Dashboard'
-import Tasks from './components/Tasks/Tasks'
+import Tasks from './pages/Tasks/Tasks'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 function App() {
   const [tab, setTab] = useState<number>(2)

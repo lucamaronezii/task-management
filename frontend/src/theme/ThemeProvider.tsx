@@ -26,19 +26,12 @@ const ThemeProvider = ({ children }: ITheme) => {
             colorPrimary: 'black'
           },
           Calendar: {
-            colorPrimary: '#27272A',
-            
+            colorPrimary: '#414144',
           },
           Button: {
-            defaultHoverColor: '#FFF'
+            defaultHoverColor: '#FFF',
+            defaultActiveColor: '#FFF'
           },
-          Radio: {
-            buttonSolidCheckedHoverBg: 'red',
-            colorText: 'white',
-            colorTextPlaceholder: 'white',
-            colorTextSecondary: 'red',
-            colorTextBase: 'red'
-          }
         }
       }}
     >
