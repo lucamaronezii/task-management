@@ -23,7 +23,7 @@ const ThemeProvider = ({ children }: ITheme) => {
           },
           DatePicker: {
             cellActiveWithRangeBg: 'black',
-            colorPrimary: 'black'
+            colorPrimary: '#414144',
           },
           Calendar: {
             colorPrimary: '#414144',
@@ -32,6 +32,9 @@ const ThemeProvider = ({ children }: ITheme) => {
             defaultHoverColor: '#FFF',
             defaultActiveColor: '#FFF'
           },
+          Message: {
+            colorSuccess: '#FFF'
+          }
         }
       }}
     >

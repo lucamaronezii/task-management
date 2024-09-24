@@ -13,7 +13,6 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         const tasks = await db('task')
             .select("*")
             .where("session_id", session_id)
-            .where("priority", "=", 2)
             .orderBy("created_at", "desc")
 
         return {
@@ -22,9 +21,27 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         }
     })
 
+    app.get('/estimated_date/:estimated_date', async (req) => {
+        const { session_id } = req.cookies
+
+        const getTaskParamsSchema = z.object({
+            estimated_date: z.string()
+        })
+
+        const params = getTaskParamsSchema.parse(req.params)
+
+        const task = await db('task')
+            .select("*")
+            .where("estimated_date", params.estimated_date)
+            .andWhere("session_id", session_id)
+
+        return task == undefined ? { message: "Not found" } : task
+    })
+
     app.get('/:id', async (req) => {
         const { session_id } = req.cookies
 
+        console.log(req.query)
         const getTaskParamsSchema = z.object({
             id: z.string().uuid()
         })

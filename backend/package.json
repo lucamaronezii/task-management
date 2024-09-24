@@ -15,6 +15,7 @@
   "description": "",
   "dependencies": {
     "@fastify/cookie": "^9.1.0",
+    "@fastify/cors": "^8.0.0",
     "@types/node": "^22.5.5",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
