@@ -13,10 +13,13 @@ export const getTasks = async () => {
 }
 
 export const getFilteredTasks = async (fts: IFilterTask) => {
-    const handleFilters = () => {
+    let url = ''
 
-    }
-    const response = await fetch('http://localhost:3333/task/filter?', {
+    // const handleFilters = () => {
+    //     if (fts.category) ? 
+    // }
+
+    const response = await fetch(`http://localhost:3333/task/filter?${url}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
