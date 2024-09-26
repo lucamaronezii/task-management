@@ -24,7 +24,6 @@ export interface IFilterTask {
 }
 
 const Tasks = () => {
-    const queryClient = useQueryClient()
     const [messageApi, contextHolder] = message.useMessage()
     const [form] = useForm()
     const [openForm, setOpenForm] = useState<boolean>(false)
@@ -44,7 +43,6 @@ const Tasks = () => {
     const handleFilter = () => {
         form.validateFields().then(response => {
             let filter: any = {}
-            console.log('response', response)
             Object.keys(response).forEach(item => {
                 if (item === 'estimated_date' && response[item] !== undefined) {
                     filter[item] = response[item].format('YYYY-MM-DD')
@@ -52,7 +50,6 @@ const Tasks = () => {
                     filter[item] = response[item]
                 }
             })
-            console.log('filter', filter)
             setFilters(filter)
             setTimeout(() => {
                 refetch() // macaquice
@@ -71,7 +68,7 @@ const Tasks = () => {
     })
 
     return (
-        <div className="w-full h-full grid grid-cols-[21rem_1fr] gap-3">
+        <div className="w-full h-full grid grid-cols-[1fr] md:grid-cols-[21rem_1fr] gap-3">
             {contextHolder}
             <Form id="filters" form={form} className="flex flex-col gap-4 justify-center">
                 <Form.Item name="estimated_date">
@@ -119,13 +116,13 @@ const Tasks = () => {
                     <Button icon={<Plus />} onClick={() => setOpenForm(true)}>Nova tarefa</Button>
                 </div>
                 <Divider />
-                <div className="flex-1 relative overflow-y-auto">
+                <div className="flex-1 relative md:overflow-y-auto">
                     {!data || isLoading ? (
                         <Flex justify="center">
                             <Spin size="large" />
                         </Flex>
                     ) : (
-                        <Flex vertical gap={6} className="w-full flex-1 absolute overflow-y-hidden">
+                        <Flex vertical gap={6} className="w-full flex-1 md:absolute md:overflow-y-hidden">
                             {data.tasks.map((task, index) => (
                                 <TaskItem key={index} task={task} onDeleted={onDeleted} onOpen={handleOpenTask} />
                             ))}

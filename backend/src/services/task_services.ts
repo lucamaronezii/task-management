@@ -116,7 +116,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         return rep.status(200).send({ message: "Task deleted sucessfully!" })
     })
 
-    app.put('/:id/:situation', async (req, rep) => {
+    app.patch('/:id/:situation', async (req, rep) => {
         const completeTaskParamsSchema = z.object({
             id: z.string().uuid(),
             situation: z.enum(['true', 'false']) // Garantir que os valores sejam "true" ou "false"
@@ -128,6 +128,37 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         await db('task')
             .update({
                 concluded: concluded
+            })
+            .where('id', params.id)
+
+        rep.status(200)
+    })
+
+    app.put('/:id', async (req, rep) => {
+        const updateTaskBodySchema = z.object({
+            name: z.string(),
+            description: z.string().optional(),
+            priority: z.number().optional(),
+            category: z.number().optional(),
+            status: z.number().optional(),
+            estimated_date: z.string()
+        })
+
+        const updateTaskParamsSchema = z.object({
+            id: z.string().uuid()
+        })
+
+        const body = updateTaskBodySchema.parse(req.body)
+        const params = updateTaskParamsSchema.parse(req.params)
+
+        await db('task')
+            .update({
+                name: body.name,
+                description: body.description,
+                category: body.category,
+                priority: body.priority,
+                status: body.status,
+                estimated_date: body.estimated_date
             })
             .where('id', params.id)
 

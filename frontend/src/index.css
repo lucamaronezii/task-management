@@ -7,6 +7,10 @@
     font-family: "Inter", sans-serif;
 }
 
+body {
+    /* background-color: black; */
+}
+
 .ant-picker-now-btn:hover {
     color: white;
 }

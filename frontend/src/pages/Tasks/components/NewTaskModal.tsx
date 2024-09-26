@@ -62,14 +62,10 @@ const NewTaskModal: React.FC<INewTask> = ({ open, onClose, onCreate }) => {
                     ]}
                     style={{ marginTop: '24px' }}
                 >
-                    <Input
-                        placeholder='Digite o título da tarefa'
-                    />
+                    <Input placeholder='Digite o título da tarefa' />
                 </Form.Item>
                 <Form.Item label="Descrição" name='description'>
-                    <TextArea
-                        placeholder='Digite a descrição da tarefa'
-                    />
+                    <TextArea placeholder='Digite a descrição da tarefa' />
                 </Form.Item>
                 <Form.Item label="Prioridade" name='priority'>
                     <Select
