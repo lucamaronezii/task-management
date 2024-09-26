@@ -8,8 +8,9 @@ import { useForm } from "antd/es/form/Form";
 import { useState } from "react";
 import NewTaskModal from "./components/NewTaskModal";
 import TaskItem from "./components/TaskItem";
+import TaskModal from "./components/TaskModal";
 
-interface IListTask {
+export interface IListTask {
     total: number;
     tasks: ITask[]
 }
@@ -26,29 +27,42 @@ const Tasks = () => {
     const queryClient = useQueryClient()
     const [messageApi, contextHolder] = message.useMessage()
     const [form] = useForm()
-    const [open, setOpen] = useState<boolean>(false)
+    const [openForm, setOpenForm] = useState<boolean>(false)
+    const [openTask, setOpenTask] = useState<boolean>(false)
     const [filters, setFilters] = useState<IFilterTask | undefined>(undefined)
+    const [selectedTask, setSelectedTask] = useState<number | undefined>(undefined)
 
     const onCreate = () => {
-        setOpen(false)
-        messageApi.success('Tarefa criada com sucesso.')
+        setOpenForm(false)
+        messageApi.success('Tarefa criada com sucesso!')
+    }
+
+    const onDeleted = () => {
+        messageApi.success('Tarefa excluída com sucesso!')
     }
 
     const handleFilter = () => {
-        form.validateFields().then((response) => {
+        form.validateFields().then(response => {
             let filter: any = {}
+            console.log('response', response)
             Object.keys(response).forEach(item => {
-                if (item === 'estimated_date') {
+                if (item === 'estimated_date' && response[item] !== undefined) {
                     filter[item] = response[item].format('YYYY-MM-DD')
                 } else {
                     filter[item] = response[item]
                 }
             })
+            console.log('filter', filter)
             setFilters(filter)
             setTimeout(() => {
-                refetch() //macaquice
+                refetch() // macaquice
             }, 100)
         })
+    }
+
+    const handleOpenTask = (id: number) => {
+        setSelectedTask(id)
+        setOpenTask(true)
     }
 
     const { data, isLoading, refetch } = useQuery<IListTask>({
@@ -61,7 +75,10 @@ const Tasks = () => {
             {contextHolder}
             <Form id="filters" form={form} className="flex flex-col gap-4 justify-center">
                 <Form.Item name="estimated_date">
-                    <Calendar fullscreen={false} defaultValue={undefined} />
+                    <Calendar
+                        fullscreen={false}
+                        defaultValue={null}
+                    />
                 </Form.Item>
                 <Form.Item name='name'>
                     <Input placeholder="Filtrar pelo nome da tarefa" />
@@ -91,13 +108,15 @@ const Tasks = () => {
                     icon={<FunnelSimple />}
                     onClick={handleFilter}
                     type="primary"
-                    className="w-28 self-end">
-                    Filtrar</Button>
+                    className="w-28 self-end"
+                >
+                    Filtrar
+                </Button>
             </Form>
             <div className="flex flex-col">
                 <div className="flex justify-between pt-2">
                     <p className="text-2xl antialiased">Tarefas - {data && data.total}</p>
-                    <Button icon={<Plus />} onClick={() => setOpen(true)}>Nova tarefa</Button>
+                    <Button icon={<Plus />} onClick={() => setOpenForm(true)}>Nova tarefa</Button>
                 </div>
                 <Divider />
                 <div className="flex-1 relative overflow-y-auto">
@@ -108,14 +127,16 @@ const Tasks = () => {
                     ) : (
                         <Flex vertical gap={6} className="w-full flex-1 absolute overflow-y-hidden">
                             {data.tasks.map((task, index) => (
-                                <TaskItem task={task} key={index} />
+                                <TaskItem key={index} task={task} onDeleted={onDeleted} onOpen={handleOpenTask} />
                             ))}
                         </Flex>
                     )}
                 </div>
             </div>
-
-            <NewTaskModal open={open} onClose={() => setOpen(false)} onCreate={onCreate} />
+            <NewTaskModal open={openForm} onClose={() => setOpenForm(false)} onCreate={onCreate} />
+            {selectedTask &&
+                <TaskModal id={selectedTask!} open={openTask} onClose={() => setOpenTask(false)} />
+            }
         </div>
     )
 }

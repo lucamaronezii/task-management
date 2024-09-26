@@ -7,7 +7,7 @@ import TextArea from 'antd/es/input/TextArea';
 import dayjs from 'dayjs';
 import React from 'react';
 
-interface IModal {
+export interface IModal {
     open: boolean;
     onClose: () => void;
 }

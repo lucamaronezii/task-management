@@ -13,6 +13,7 @@ declare module 'knex/types/tables' {
             created_at: Date;
             estimated_date: Date | string;
             session_id: UUID;
+            concluded: boolean;
         }
     }
 }

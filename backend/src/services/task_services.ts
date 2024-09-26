@@ -11,7 +11,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         const { session_id } = req.cookies
 
         const tasks = await db('task')
-            .select("*")
+            .select("id", "name", "concluded")
             .where("session_id", session_id)
             .orderBy("created_at", "desc")
 
@@ -36,7 +36,7 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
         const props = getTaskQuerySchema.parse(query)
 
         const tasks = await db('task')
-            .select("*")
+            .select("id", "name", "concluded")
             .where("session_id", session_id)
             .modify((qb) => {
                 if (props.estimated_date) qb.andWhere("estimated_date", props.estimated_date)
@@ -114,5 +114,23 @@ export const tasksEndpoints = async (app: FastifyInstance) => {
             .where("id", params.id)
 
         return rep.status(200).send({ message: "Task deleted sucessfully!" })
+    })
+
+    app.put('/:id/:situation', async (req, rep) => {
+        const completeTaskParamsSchema = z.object({
+            id: z.string().uuid(),
+            situation: z.enum(['true', 'false']) // Garantir que os valores sejam "true" ou "false"
+        })
+
+        const params = completeTaskParamsSchema.parse(req.params)
+        const concluded = params.situation === 'true';
+
+        await db('task')
+            .update({
+                concluded: concluded
+            })
+            .where('id', params.id)
+
+        rep.status(200)
     })
 }

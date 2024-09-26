@@ -1,5 +1,6 @@
 
 export interface ITask {
+    id: number;
     name: string;
     description: string;
     priority: number;
@@ -7,6 +8,7 @@ export interface ITask {
     category: number;
     estimated_date: string;
     concluded: boolean;
+    created_at: string;
 }
 
 export const createTask = async (request: ITask) => {
